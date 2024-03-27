@@ -71,8 +71,7 @@ export default function LoginComponent() {
          method: "GET",
          headers: { 'authorization': 'Bearer '+ setBT },
       }).then((res) => {
-        console.log("login success - ", res);
-        
+      //  console.log("login success - ", res);
         sessionStorage.setItem("userprofilename",res.data.result.fullname);
         sessionStorage.setItem("userprofilepic",res.data.result.profilepictureurl);
         if(res.data.result.verificationstatus === "APPROVE")
@@ -84,6 +83,10 @@ export default function LoginComponent() {
         else if(res.data.result.verificationstatus === "PENDING")
         {
            res.data.result ? push("/approval") : toast.error(res.data.resultmessage);
+        }
+        else if(res.data.result.verificationstatus === "REJECT")
+        {
+          toast.warn("Your request has been rejected. please register with another mobile number.");
         }
         else
         {
