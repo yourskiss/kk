@@ -157,8 +157,8 @@ export default function UpdateprofileComponent() {
             }).then((res) => {
                // console.log(res);
                 setLoading(false);
-                sessionStorage.setItem('userprofilepic', res.data.result.profilepictureurl);
-                sessionStorage.setItem('userprofilename',  res.data.result.firstname + " " + res.data.result.lastname);
+                localStorage.setItem('userprofilepic', res.data.result.profilepictureurl);
+                localStorage.setItem('userprofilename',  res.data.result.firstname + " " + res.data.result.lastname);
                 res.data.result ? push("/dashboard") : toast.warn(res.data.resultmessage);
             }).catch((err) => {
                 setLoading(false); 
