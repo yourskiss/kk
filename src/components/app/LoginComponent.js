@@ -27,9 +27,9 @@ export default function LoginComponent() {
       e.preventDefault();
       const regexMobile = /^[6789][0-9]{9}$/i;
       if (!mobileValues){setMobileError("Mobile number is required!");}
-     // else if(mobileValues.length > 10){setMobileError("Mobile Number not more then 10 digit");}
-    // else if(mobileValues.length < 10){setMobileError("Mobile Number must have at least 10 digit");}
-    //  else if(!regexMobile.test(mobileValues)){setMobileError("Invalid mobile number!");}
+      else if(mobileValues.length > 10){setMobileError("Mobile Number not more then 10 digit");}
+      else if(mobileValues.length < 10){setMobileError("Mobile Number must have at least 10 digit");}
+      else if(!regexMobile.test(mobileValues)){setMobileError("Invalid mobile number!");}
       else { setMobileError("");  setIsMobile(true); }
     }
     const otpSubmit =(e) =>{
