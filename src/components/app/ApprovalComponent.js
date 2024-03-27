@@ -19,10 +19,10 @@ export default function ApprovalComponent() {
      }, [isUT]);
    
     useEffect(() => {
-        if (typeof localStorage !== 'undefined') 
+        if (typeof sessionStorage !== 'undefined') 
         {
-            setUsername(localStorage.getItem('userprofilename'));
-            setUserdp(localStorage.getItem('userprofilepic'));
+            setUsername(sessionStorage.getItem('userprofilename'));
+            setUserdp(sessionStorage.getItem('userprofilepic'));
         } 
         else
         {

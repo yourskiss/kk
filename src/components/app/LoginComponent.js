@@ -72,8 +72,8 @@ export default function LoginComponent() {
          headers: { 'authorization': 'Bearer '+ setBT },
       }).then((res) => {
       //  console.log("login success - ", res);
-        localStorage.setItem("userprofilename",res.data.result.fullname);
-        localStorage.setItem("userprofilepic",res.data.result.profilepictureurl);
+        sessionStorage.setItem("userprofilename",res.data.result.fullname);
+        sessionStorage.setItem("userprofilepic",res.data.result.profilepictureurl);
         if(res.data.result.verificationstatus === "APPROVE")
         {
             const userinfo = res.data.result.userid + "|" + res.data.result.phonenumber

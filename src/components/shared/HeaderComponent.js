@@ -28,10 +28,10 @@ useEffect(() => {
 }, [isUT]);
 
 useEffect(() => {
-  if (typeof localStorage !== 'undefined') 
+  if (typeof sessionStorage !== 'undefined') 
   {
-      setUsername(localStorage.getItem('userprofilename'));
-      setUserdp(localStorage.getItem('userprofilepic'));
+      setUsername(sessionStorage.getItem('userprofilename'));
+      setUserdp(sessionStorage.getItem('userprofilepic'));
   } 
   else
   {
@@ -48,8 +48,8 @@ useEffect(() => {
 
   const logoutnow = () => {
       Cookies.remove('usertoken');
-      localStorage.removeItem("userprofilepic");
-      localStorage.removeItem("userprofilename");
+      sessionStorage.removeItem("userprofilepic");
+      sessionStorage.removeItem("userprofilename");
       setUsername('Demmy Account');
       setUserdp('/assets/images/profile/dp.png');
       push("/") ;
