@@ -166,6 +166,14 @@ export default function UpdateprofileComponent() {
             });
         }
     },[formError, isSubmit]);
+
+    const onInputmaxLength = (e) => {
+        if(e.target.value.length > e.target.maxLength)
+        {
+          e.target.value = e.target.value.slice(0, e.target.maxLength);
+        }
+    }
+     
   return (
     <>
     <HeaderComponent />
@@ -191,6 +199,7 @@ export default function UpdateprofileComponent() {
                         name="firstname"
                         placeholder="First name"
                         maxLength={25}
+                        onInput={onInputmaxLength}
                         value={ formValue.firstname  || ''  }
                         onChange={onChangeField}
                     />
@@ -203,6 +212,7 @@ export default function UpdateprofileComponent() {
                         name="lastname"
                         placeholder="Last name"
                         maxLength={25}
+                        onInput={onInputmaxLength}
                         value={ formValue.lastname  || ''  }
                         onChange={onChangeField}
                     />
@@ -215,6 +225,7 @@ export default function UpdateprofileComponent() {
                         name="emailaddress"
                         placeholder="Email ID"
                         maxLength={50}
+                        onInput={onInputmaxLength}
                         value={ formValue.emailaddress || ''  }
                         onChange={onChangeField}
                     />
@@ -260,6 +271,7 @@ export default function UpdateprofileComponent() {
                         name="aadhaarinfo"
                         placeholder="Aadhaar Number"
                         maxLength={12}
+                        onInput={onInputmaxLength}
                         value={ formValue.aadhaarinfo || '' }
                         onChange={onChangeField}
                     />

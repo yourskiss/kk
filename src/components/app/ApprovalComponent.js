@@ -16,20 +16,28 @@ export default function ApprovalComponent() {
     const { push } = useRouter();
     useEffect(() => {
       if(isUT) { push("/dashboard"); return }
+ 
+ 
      }, [isUT]);
    
     useEffect(() => {
         if (typeof localStorage !== 'undefined') 
         {
-            setUsername(localStorage.getItem('userprofilename'));
-            setUserdp(localStorage.getItem('userprofilepic'));
+            const un = localStorage.getItem('userprofilename');
+            const ud = localStorage.getItem('userprofilepic');
+            setUsername(un);
+            setUserdp(ud);
         } 
         else
         {
             setUsername('Demmy Account');
             setUserdp('/assets/images/profile/dp.png');
         }
-    }, []);
+        
+    }, [username, userdp]);
+
+ 
+
 
     var settingsApproval = {
         dots: true,

@@ -37,7 +37,7 @@ export default function RegisterComponent() {
   const isUser = isValideUser();
   
  
- 
+
  
 useEffect(() => {
       if(isUT) { push("/dashboard"); return  }
@@ -117,6 +117,13 @@ useEffect(() => {
   }
 
   
+  const onInputmaxLength = (e) => {
+    if(e.target.value.length > e.target.maxLength)
+    {
+      e.target.value = e.target.value.slice(0, e.target.maxLength);
+    }
+  }
+  
  
   return (
   <>
@@ -140,6 +147,7 @@ useEffect(() => {
                   name="mobilenumber"
                   placeholder="Mobile Number"
                   maxLength={10}
+                  onInput={onInputmaxLength}
                   {...register('mobilenumber', registerOptions.mobilenumber)}
                   errors={errors?.mobilenumber && errors.mobilenumber.message}
                 />
@@ -149,6 +157,7 @@ useEffect(() => {
                   name="firstname"
                   placeholder="First Name"
                   maxLength={20}
+                  onInput={onInputmaxLength}
                   {...register('firstname', registerOptions.firstname)}
                   errors={errors?.firstname && errors.firstname.message}
                 />
@@ -157,6 +166,7 @@ useEffect(() => {
                   name="lastname"
                   placeholder="Last Name"
                   maxLength={20}
+                  onInput={onInputmaxLength}
                   {...register('lastname', registerOptions.lastname)}
                   errors={errors?.lastname && errors.lastname.message} 
                 />
@@ -165,6 +175,7 @@ useEffect(() => {
                   type="text"
                   name="emailaddress" 
                   placeholder="Email ID" 
+                  onInput={onInputmaxLength}
                   maxLength={50} {...register('emailaddress', registerOptions.emailaddress)} 
                   errors={errors?.emailaddress && errors.emailaddress.message}
                 />
@@ -205,7 +216,8 @@ useEffect(() => {
                   type="number"
                   name="aadhaarinfo"
                   placeholder="Aadhaar Number"
-                  maxLength={20}
+                  maxLength={12}
+                  onInput={onInputmaxLength}
                   {...register('aadhaarinfo', registerOptions.aadhaarinfo)}
                   errors={errors?.aadhaarinfo && errors.aadhaarinfo.message} 
                 />

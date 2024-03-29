@@ -22,13 +22,17 @@ export default function LoginComponent() {
     const [isOTP, setIsOTP] = useState(false);
     const mobileChange = (e) =>{setMobileValues(e.target.value);}
     const otpChange = (e) =>{setOtpValues(e.target.value); }
-
+    const onInputmaxLength = (e) => {
+        if(e.target.value.length > e.target.maxLength)
+        {
+          e.target.value = e.target.value.slice(0, e.target.maxLength);
+        }
+    }
     const mobileSubmit =(e) =>{
       e.preventDefault();
       const regexMobile = /^[6789][0-9]{9}$/i;
       if (!mobileValues){setMobileError("Mobile number is required!");}
       else if(mobileValues.length > 10){setMobileError("Mobile Number not more then 10 digit");}
-      else if(mobileValues.length < 10){setMobileError("Mobile Number must have at least 10 digit");}
       else if(!regexMobile.test(mobileValues)){setMobileError("Invalid mobile number!");}
       else { setMobileError("");  setIsMobile(true); }
     }
@@ -37,7 +41,6 @@ export default function LoginComponent() {
       const regexOTP = /^[0-9]{6}$/i;
       if (!otpValues){setOtpError("OTP is required!");}
       else if(otpValues.length > 6){setOtpError("OTP not more then 6 digit");}
-      else if(otpValues.length < 6){setOtpError("OTP must have at least 6 digit");}
       else if(!regexOTP.test(otpValues)){setOtpError("Invalid otp");}
       else{ setOtpError(''); setIsOTP(true); }
     }
@@ -111,7 +114,7 @@ export default function LoginComponent() {
           <div className="registerHead">Welcome! Sign in here  </div>
           <div className="registercontainer">
               <div className="registerField">
-                <input  type="number" name="mobile" placeholder="Mobile number" maxLength={10} minLength={10} value={mobileValues} onChange={mobileChange} disabled={isDisabled} />
+                <input  type="number" name="mobile" placeholder="Mobile number" maxLength={10} minLength={10} value={mobileValues} onChange={mobileChange} disabled={isDisabled} onInput={onInputmaxLength} />
                 <span className='registerError'>{ mobileError }</span> 
                 { isDisabled ? <em className="numberedit" onClick={changeNumber}>Change</em> : null }
               </div>
@@ -124,7 +127,7 @@ export default function LoginComponent() {
               <div className="registerMsgOtp">Enter OTP </div>
               <div className="registerOtp">
                 <div><aside>
-                  <input type="number" name="otpnumber" maxLength={6} minLength={6}  value={otpValues} onChange={otpChange} />
+                  <input type="number" name="otpnumber" maxLength={6} minLength={6}  value={otpValues} onChange={otpChange}  onInput={onInputmaxLength} />
                 </aside></div> 
               </div>
               <span className='registerError registerErrorCenter'> { otpError }</span>  
