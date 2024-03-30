@@ -4,7 +4,6 @@ import axios from "axios";
 // import Cookies from 'js-cookie';
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from "react"
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
 import { ToastContainer, toast } from 'react-toastify';
@@ -55,14 +54,16 @@ export default function LoginComponent() {
     }
 
   const router = useRouter();
-  const searchParams = useSearchParams();
+ // const searchParams = useSearchParams();
   const setBT = setBearerToken();
   const isUT = isUserToken();
  
 
 
   const isCC = isCouponeCode();
-  const getqrcode = searchParams.get('code');
+ // const getqrcode = searchParams.get('code');
+  let params = new URLSearchParams(document.location.search);
+  let getqrcode = params.get("code");  
    useEffect(() => {
      if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
    }, [getqrcode]);
@@ -132,7 +133,7 @@ export default function LoginComponent() {
   }, [otpError, isOTP]);
  
   return (
-    <Suspense>
+  <>
     <HeaderComponent />
     <div className='screenmain'>
     <section className="screencontainer">
@@ -194,6 +195,6 @@ pauseOnHover
 theme="colored"  />
 
     { loading ? <Loader /> : null }
-    </Suspense>
+  </>
   )
 }
