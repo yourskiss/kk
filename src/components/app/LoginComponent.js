@@ -3,7 +3,8 @@ import Link from "next/link";
 import axios from "axios";
 // import Cookies from 'js-cookie';
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams   } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from "react"
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
 import { ToastContainer, toast } from 'react-toastify';
@@ -131,7 +132,7 @@ export default function LoginComponent() {
   }, [otpError, isOTP]);
  
   return (
-  <>
+    <Suspense>
     <HeaderComponent />
     <div className='screenmain'>
     <section className="screencontainer">
@@ -193,6 +194,6 @@ pauseOnHover
 theme="colored"  />
 
     { loading ? <Loader /> : null }
-  </>
+    </Suspense>
   )
 }
