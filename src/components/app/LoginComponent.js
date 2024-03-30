@@ -1,10 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
 import axios from "axios";
 // import Cookies from 'js-cookie';
-import { Suspense, useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams   } from 'next/navigation';
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,7 +13,7 @@ import { setUserCookies, isUserToken } from "@/config/userauth";
 import { encryptText } from "@/config/crypto";
 import { setCouponeCode, isCouponeCode } from "@/config/validecoupone";
 
-export default function LoginComponent() { 
+export default function LoginComponent() {  
   
     const[loading, setLoading] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -53,23 +52,24 @@ export default function LoginComponent() {
       setIsOTP(false);
       setIsMobile(false)
     }
-  const { push } = useRouter();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const setBT = setBearerToken();
   const isUT = isUserToken();
  
 
 
   const isCC = isCouponeCode();
-  const searchParams = useSearchParams()
   const getqrcode = searchParams.get('code');
-  useEffect(() => {
-    if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
-  }, [getqrcode]);
+   useEffect(() => {
+     if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
+   }, [getqrcode]);
   
 
   useEffect(() => {
-    if(isUT && !isCC) { push("/dashboard"); return }
-    if(isUT && isCC) { push("/getcoupone"); return }
+    if(isUT && !isCC) { router.push("/dashboard"); return }
+    if(isUT && isCC) { router.push("/getcoupone"); return }
   }, [isUT]);
 
    useEffect(() => {
@@ -99,11 +99,11 @@ export default function LoginComponent() {
            // res.data.result ? push("/dashboard") : toast.error(res.data.resultmessage);            
             if(res.data.result && isCC)
             { 
-                push('/getcoupone');
+              router.push('/getcoupone');
             }
             else if(res.data.result && !isCC)  
             {
-                push("/dashboard");
+              router.push("/dashboard");
             }
             else
             {
@@ -132,7 +132,6 @@ export default function LoginComponent() {
  
   return (
   <>
-<Suspense>
     <HeaderComponent />
     <div className='screenmain'>
     <section className="screencontainer">
@@ -179,7 +178,7 @@ export default function LoginComponent() {
         </div>
     </section>
     </div>
-</Suspense>
+
 
     
 <ToastContainer position="top-center"
