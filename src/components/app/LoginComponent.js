@@ -3,7 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 // import Cookies from 'js-cookie';
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
 import { ToastContainer, toast } from 'react-toastify';
@@ -54,14 +54,12 @@ export default function LoginComponent() {
     }
 
   const router = useRouter();
- // const searchParams = useSearchParams();
   const setBT = setBearerToken();
   const isUT = isUserToken();
  
 
 
   const isCC = isCouponeCode();
- // const getqrcode = searchParams.get('code');
   let params = new URLSearchParams(document.location.search);
   let getqrcode = params.get("code");  
    useEffect(() => {
