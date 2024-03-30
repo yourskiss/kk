@@ -1,9 +1,9 @@
-import LoginComponent from '../components/app/LoginComponent'
-
+import HomeComponent from '@/components/app/HomeComponent';
+ 
 export default function Home() {
   return (
     <>
-      <LoginComponent/>
+      <HomeComponent/>
     </>
   );
 }
