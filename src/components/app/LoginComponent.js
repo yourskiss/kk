@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
 import axios from "axios";
+// import Cookies from 'js-cookie';
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Loader from "../shared/LoaderComponent";
@@ -10,8 +12,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import {  setBearerToken } from "@/config/beararauth";
 import { setUserCookies, isUserToken } from "@/config/userauth";
 import { encryptText } from "@/config/crypto";
- 
+import { setCouponeCode, isCouponeCode } from "@/config/validecoupone";
+
 export default function LoginComponent() { 
+  
     const[loading, setLoading] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [mobileValues, setMobileValues] = useState('');
@@ -32,7 +36,7 @@ export default function LoginComponent() {
       e.preventDefault();
       const regexMobile = /^[6789][0-9]{9}$/i;
       if (!mobileValues){setMobileError("Mobile number is required!");}
-      else if(mobileValues.length > 10){setMobileError("Mobile Number not more then 10 digit");}
+      else if(mobileValues.length < 10){setMobileError("Mobile Number  must have at least 10 Digit");}
       else if(!regexMobile.test(mobileValues)){setMobileError("Invalid mobile number!");}
       else { setMobileError("");  setIsMobile(true); }
     }
@@ -40,7 +44,7 @@ export default function LoginComponent() {
       e.preventDefault();
       const regexOTP = /^[0-9]{6}$/i;
       if (!otpValues){setOtpError("OTP is required!");}
-      else if(otpValues.length > 6){setOtpError("OTP not more then 6 digit");}
+      else if(otpValues.length < 6){setOtpError("OTP must have at least 6 digit");}
       else if(!regexOTP.test(otpValues)){setOtpError("Invalid otp");}
       else{ setOtpError(''); setIsOTP(true); }
     }
@@ -53,9 +57,20 @@ export default function LoginComponent() {
   const setBT = setBearerToken();
   const isUT = isUserToken();
  
+
+
+  const isCC = isCouponeCode();
+  const searchParams = useSearchParams()
+  const getqrcode = searchParams.get('code');
   useEffect(() => {
-    if(isUT) { push("/dashboard"); return }
-   }, [isUT]);
+    if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
+  }, [getqrcode]);
+  
+
+  useEffect(() => {
+    if(isUT && !isCC) { push("/dashboard"); return }
+    if(isUT && isCC) { push("/getcoupone"); return }
+  }, [isUT]);
 
    useEffect(() => {
     if(Object.keys(mobileError).length === 0 && isMobile)
@@ -77,16 +92,28 @@ export default function LoginComponent() {
       //  console.log("login success - ", res);
         localStorage.setItem("userprofilename",res.data.result.fullname);
         localStorage.setItem("userprofilepic",res.data.result.profilepictureurl);
-        if(res.data.result.verificationstatus === "APPROVE")
+        if(res.data.result.verificationstatus === "APPROVE" || res.data.result.verificationstatus === "PENDING")
         {
             const userinfo = res.data.result.userid + "|" + res.data.result.phonenumber
             setUserCookies('usertoken', encryptText(userinfo));
-            res.data.result ? push("/dashboard") : toast.error(res.data.resultmessage);
+           // res.data.result ? push("/dashboard") : toast.error(res.data.resultmessage);            
+            if(res.data.result && isCC)
+            { 
+                push('/getcoupone');
+            }
+            else if(res.data.result && !isCC)  
+            {
+                push("/dashboard");
+            }
+            else
+            {
+                toast.error(res.data.resultmessage);
+            }
         }
-        else if(res.data.result.verificationstatus === "PENDING")
-        {
-           res.data.result ? push("/approval") : toast.error(res.data.resultmessage);
-        }
+        // else if(res.data.result.verificationstatus === "PENDING")
+        // {
+        //    res.data.result ? push("/approval") : toast.error(res.data.resultmessage);
+        // }
         else if(res.data.result.verificationstatus === "REJECT")
         {
           toast.warn("Your request has been rejected. please register with another mobile number.");
@@ -145,9 +172,11 @@ export default function LoginComponent() {
               }
             </div>
 
-        
+ 
       
-      <div className="registerBottomText">Do not have account <Link href="/register">Sign Up</Link></div>
+        <div className="registerBottomText">
+          Do not have account   <Link href='/register'>Sign Up</Link>
+        </div>
     </section>
     </div>
 

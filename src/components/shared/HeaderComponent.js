@@ -50,6 +50,7 @@ useEffect(() => {
       Cookies.remove('usertoken');
       localStorage.removeItem("userprofilepic");
       localStorage.removeItem("userprofilename");
+      Cookies.remove('couponecodecookies');
       setUsername('Demmy Account');
       setUserdp('/assets/images/profile/dp.png');
       push("/") ;

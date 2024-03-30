@@ -106,7 +106,6 @@ export default function UpdateprofileComponent() {
         if(val.city===''){error.city = "City is required"}
         if(val.aadhaarinfo===''){error.aadhaarinfo = "Aadhaar number is required"}
         else if(val.aadhaarinfo.length < 12){error.aadhaarinfo = "Aadhaar must have at least 12 Digit"}
-        else if(val.aadhaarinfo.length > 12){error.aadhaarinfo = "Aadhaar not more then 12 Digit"}
         return error;
     }
     const handleSubmit = (e) =>{

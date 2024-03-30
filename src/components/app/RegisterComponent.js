@@ -35,13 +35,11 @@ export default function RegisterComponent() {
   const setBT = setBearerToken();
   const isUT = isUserToken();
   const isUser = isValideUser();
-  
+  useEffect(() => {
+    if(isUT) { push("/dashboard"); return }
+  }, [isUT]);
  
-
- 
-useEffect(() => {
-      if(isUT) { push("/dashboard"); return  }
-
+    useEffect(() => {
       setLoading(true); 
       axios({
         url: process.env.BASE_URL + "CommonUtility/State?countryId=1",
@@ -67,9 +65,7 @@ useEffect(() => {
               console.log(err.message);
           })
      : null;
-
-
- }, [stateID, isUT]);
+    }, [stateID]);
  
  
   const handleRegistration = (data) => 
@@ -228,7 +224,9 @@ useEffect(() => {
                   <button className="register_button">Submit</button>
                 </div>
 
-                <div className="registerBottomText">Already have an account? <Link href="/">Sign in</Link></div>
+                <div className="registerBottomText">
+                  Already have an account?  <Link href='/'>Sign in</Link>
+                </div>
               </div>
           </form>
         </div>
