@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import axios from "axios";
 // import Cookies from 'js-cookie';
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
@@ -132,7 +132,7 @@ export default function LoginComponent() {
  
   return (
   <>
-
+<Suspense>
     <HeaderComponent />
     <div className='screenmain'>
     <section className="screencontainer">
@@ -179,7 +179,7 @@ export default function LoginComponent() {
         </div>
     </section>
     </div>
-
+</Suspense>
 
     
 <ToastContainer position="top-center"
