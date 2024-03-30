@@ -60,7 +60,7 @@ export default function LoginComponent() {
 
 
   const isCC = isCouponeCode();
-  let params = new URLSearchParams(document.location.search);
+  let params = new URLSearchParams(location.search);
   let getqrcode = params.get("code");  
    useEffect(() => {
      if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
