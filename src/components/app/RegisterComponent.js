@@ -92,7 +92,7 @@ export default function RegisterComponent() {
       osdetails: osInfo,
       browserdetails: browserInfo
     }
-     console.log(datafinal);
+    // console.log(datafinal);
     
     axios({
           url: process.env.BASE_URL + "Customer/SaveUser",
@@ -100,11 +100,11 @@ export default function RegisterComponent() {
           headers: { 'authorization': 'Bearer '+ setBT  },
           data: datafinal,
       }).then((res) => {
-        console.log(res);
+       // console.log(res);
         setLoading(false);
         localStorage.setItem('userprofilepic', data.profilepic);
         localStorage.setItem('userprofilename',  data.firstname + " " + data.lastname);
-        res.data.result ? push("/approval") : toast.warn(res.data.resultmessage);
+        res.data.result ? (toast.success('Registation Successfully'), push("/approval")) : toast.warn(res.data.resultmessage);
       }).catch((err) => {
         toast.error(err.message);
         setLoading(false); 

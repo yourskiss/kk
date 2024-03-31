@@ -158,7 +158,7 @@ export default function UpdateprofileComponent() {
                 setLoading(false);
                 localStorage.setItem('userprofilepic', res.data.result.profilepictureurl);
                 localStorage.setItem('userprofilename',  res.data.result.firstname + " " + res.data.result.lastname);
-                res.data.result ? push("/dashboard") : toast.warn(res.data.resultmessage);
+                res.data.result ? (toast.success("Profile Updated Successfully."),push("/dashboard")) : toast.warn(res.data.resultmessage);
             }).catch((err) => {
                 setLoading(false); 
                 toast.error(err.message);

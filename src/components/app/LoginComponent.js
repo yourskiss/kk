@@ -98,10 +98,12 @@ export default function LoginComponent() {
             if(res.data.result && isCC)
             { 
               router.push('/getcoupone');
+              toast.success('Coupon Added Successfully'); 
             }
             else if(res.data.result && !isCC)  
             {
               router.push("/dashboard");
+              toast.success('Login Successfully'); 
             }
             else
             {
