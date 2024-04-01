@@ -12,6 +12,7 @@ import {  setBearerToken } from "@/config/beararauth";
 import { setUserCookies, isUserToken } from "@/config/userauth";
 import { encryptText } from "@/config/crypto";
 import { setCouponeCode, isCouponeCode } from "@/config/validecoupone";
+import Otpcountdown from "../core/timer";
 
 export default function LoginComponent() {  
   
@@ -23,6 +24,9 @@ export default function LoginComponent() {
     const [otpError, setOtpError] = useState('');
     const [isMobile, setIsMobile] = useState(false);
     const [isOTP, setIsOTP] = useState(false);
+    const [orderID, setOrderID] = useState(''); 
+    const [OTPVerified, setOTPVerified] = useState(false);
+    const [otpsent, setOtpsent] = useState(false);
     const mobileChange = (e) =>{setMobileValues(e.target.value);}
     const otpChange = (e) =>{setOtpValues(e.target.value); }
     const onInputmaxLength = (e) => {
@@ -37,7 +41,7 @@ export default function LoginComponent() {
       if (!mobileValues){setMobileError("Mobile number is required!");}
       else if(mobileValues.length < 10){setMobileError("Mobile Number  must have at least 10 Digit");}
       else if(!regexMobile.test(mobileValues)){setMobileError("Invalid mobile number!");}
-      else { setMobileError("");  setIsMobile(true); }
+      else { setMobileError(""); setIsMobile(true);  }
     }
     const otpSubmit =(e) =>{
       e.preventDefault();
@@ -60,6 +64,11 @@ export default function LoginComponent() {
   const isUT = isUserToken();
   const isCC = isCouponeCode();
  
+
+  const otpcountertime = new Date();
+  otpcountertime.setSeconds(otpcountertime.getSeconds() + 59);  
+  const getOtpTimer =(val) =>{ setOtpsent(val); }
+
    useEffect(() => {
      if(getqrcode !== null) { setCouponeCode('couponecodecookies',getqrcode); }
    }, [getqrcode]);
@@ -74,12 +83,20 @@ export default function LoginComponent() {
     if(Object.keys(mobileError).length === 0 && isMobile)
     {
       setIsDisabled(true);
-      toast.success('OTP Send to your mobile number.');
+      sendotp();
     }
   }, [mobileError, isMobile]);
  
   useEffect(() => {
     if(Object.keys(otpError).length === 0 && isOTP)
+    {
+      verifyotp();
+    }
+  }, [otpError, isOTP]);
+
+  
+  useEffect(() => {
+    if(OTPVerified)
     {
       setLoading(true);
       axios({
@@ -93,8 +110,7 @@ export default function LoginComponent() {
         if(res.data.result.verificationstatus === "APPROVE" || res.data.result.verificationstatus === "PENDING")
         {
             const userinfo = res.data.result.userid + "|" + res.data.result.phonenumber
-            setUserCookies('usertoken', encryptText(userinfo));
-           // res.data.result ? push("/dashboard") : toast.error(res.data.resultmessage);            
+            setUserCookies('usertoken', encryptText(userinfo));       
             if(res.data.result && isCC)
             { 
               router.push('/getcoupone');
@@ -128,8 +144,92 @@ export default function LoginComponent() {
         setLoading(false); 
       });
     }
-  }, [otpError, isOTP]);
- 
+  }, [OTPVerified, isOTP]);
+
+
+
+  const sendotp = () => {
+    setLoading(true);
+      axios({
+         url: process.env.BASE_URL + "Sms/SendOTP?mobile="+ mobileValues,
+         method: "GET",
+         headers: { 'authorization': 'Bearer '+ setBT },
+      }).then((res) => {
+        setLoading(false);
+        setOtpValues('');
+        setIsOTP(false);
+        console.log("send otp  - ", res);
+        if(res.data.orderId)
+        {
+          toast.success('OTP send in your mobile number.');
+          setOrderID(res.data.orderId);
+          setOtpsent(false);
+        }
+        else
+        {
+          toast.error("Unable to send otp on your mobile number.");
+        }
+      }).catch((err) => {
+        toast.error(err.message);
+        setLoading(false); 
+      });
+  }
+  const resendotp = () => {
+    setLoading(true);
+      axios({
+         url: process.env.BASE_URL + "Sms/ResendOTP?orderid="+ orderID,
+         method: "GET",
+         headers: { 'authorization': 'Bearer '+ setBT },
+      }).then((res) => {
+        setLoading(false);
+        setOtpValues('');
+        setIsOTP(false);
+        console.log("resend otp - ", res);
+        if(res.data.orderId)
+        {
+          toast.success('OTP Re-send in your mobile number.');
+          setOrderID(res.data.orderId);
+          setOtpsent(false);
+        }
+        else
+        {
+          toast.error("Unable to re-send otp on your mobile number");
+        }
+      }).catch((err) => {
+        toast.error(err.message);
+        setLoading(false); 
+      });
+  }
+
+  const verifyotp = () => {
+    setLoading(true);
+      axios({
+         url: process.env.BASE_URL + "Sms/VerifyOTP?orderid="+orderID+"&otp="+otpValues+"&mobile="+mobileValues,
+         method: "GET",
+         headers: { 'authorization': 'Bearer '+ setBT },
+      }).then((res) => {
+        setLoading(false);
+        console.log("Verify OTP - ", res);
+        if(res.data.isOTPVerified)
+        {
+          toast.success("OTP Successfully Verify");
+          setOTPVerified(res.data.isOTPVerified);
+        }
+        else
+        {
+          toast.error(res.data.reason);
+          setOtpValues('');
+          setIsOTP(false);
+          setOTPVerified(false);
+        }
+      }).catch((err) => {
+        toast.error(err.message);
+        setLoading(false); 
+      });
+  }
+
+
+
   return (
   <>
     <HeaderComponent />
@@ -157,7 +257,9 @@ export default function LoginComponent() {
                 </aside></div> 
               </div>
               <span className='registerError registerErrorCenter'> { otpError }</span>  
-              <div className="registerOtpText">Not reveived?  <span>Resend OTP</span></div>
+              {
+                !otpsent ? (<div className="registerOtpText">Resend OTP in  <Otpcountdown expiryTimestamp={otpcountertime} onSuccess={getOtpTimer} /> Seconds </div>) : (<div className="registerOtpText">Not reveived?  <span onClick={resendotp}>Resend OTP</span></div>)
+              }
             </div>
         </>
         ) : null }

@@ -78,7 +78,7 @@ export default function UpdateprofileComponent() {
             method: "GET",
             headers: { 'authorization': 'Bearer '+ setBT  },
             }).then((res) => {
-            setCityList(res.data);
+                setCityList(res.data);
             }).catch((err) => {
                 console.log(err.message);
             })
