@@ -158,7 +158,7 @@ export default function LoginComponent() {
         setLoading(false);
         setOtpValues('');
         setIsOTP(false);
-        console.log("send otp  - ", res);
+       // console.log("send otp  - ", res);
         if(res.data.orderId)
         {
           toast.success('OTP send in your mobile number.');
@@ -184,7 +184,7 @@ export default function LoginComponent() {
         setLoading(false);
         setOtpValues('');
         setIsOTP(false);
-        console.log("resend otp - ", res);
+       // console.log("resend otp - ", res);
         if(res.data.orderId)
         {
           toast.success('OTP Re-send in your mobile number.');
@@ -209,7 +209,7 @@ export default function LoginComponent() {
          headers: { 'authorization': 'Bearer '+ setBT },
       }).then((res) => {
         setLoading(false);
-        console.log("Verify OTP - ", res);
+       // console.log("Verify OTP - ", res);
         if(res.data.isOTPVerified)
         {
           toast.success("OTP Successfully Verify");
