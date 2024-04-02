@@ -8,8 +8,7 @@ import { getUserID, isUserToken, isValideUser } from "@/config/userauth";
 import { setBearerToken } from "@/config/beararauth";
 import Loader from "../shared/LoaderComponent";
 import { ipaddress, osdetails, browserdetails, geoLatitude, geoLongitude } from "../core/jio";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'react-toastify';
 import { isCouponeCode, getCouponeCode } from "@/config/validecoupone";
 
 export default function GetcouponeComponent() {
@@ -90,16 +89,6 @@ export default function GetcouponeComponent() {
         </div>
       </div> 
  
-      <ToastContainer position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"  />
 
       { loading ? <Loader /> : null }
     </>

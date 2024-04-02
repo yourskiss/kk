@@ -10,8 +10,7 @@ import Loader from "../shared/LoaderComponent";
 import InputWrapperComponent from "../shared/InputWrapperComponent";
 import HeaderComponent from "../shared/HeaderComponent";
 import { registerOptions } from "@/locale/en-in";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { setBearerToken } from "@/config/beararauth";
 import { isUserToken, isValideUser } from "@/config/userauth";
 import { ipaddress, osdetails, browserdetails  } from "../core/jio";
@@ -233,18 +232,6 @@ export default function RegisterComponent() {
     </div>
 
 
-
-
-    <ToastContainer position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"  />
 
     { loading ? <Loader /> : null }
   </>

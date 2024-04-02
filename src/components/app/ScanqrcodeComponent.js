@@ -8,8 +8,7 @@ import { getUserID, isUserToken, isValideUser } from "@/config/userauth";
 import { setBearerToken } from "@/config/beararauth";
 import Loader from "../shared/LoaderComponent";
 import { ipaddress, osdetails, browserdetails, geoLatitude, geoLongitude } from "../core/jio";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 export default function ScanqrcodeComponent() {
   const [loading, setLoading] = useState(false);
@@ -76,11 +75,12 @@ export default function ScanqrcodeComponent() {
           // console.log(res)
           if(res.data.result === null)
           {
-            toast.error(res.data.resultmessage)
+            toast.error(res.data.resultmessage);
             setQrcode(true);
            } 
            else
            {
+            toast.error('Coupon Successfully Verify');
             push("/rewards");
            }
         }).catch((err) => {
@@ -126,16 +126,7 @@ export default function ScanqrcodeComponent() {
 
       { qrcode ? <QrReader onData={handalqrisvailable} onSuccess={getData} /> : "" }
 
-      <ToastContainer position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"  />
+ 
 
       { loading ? <Loader /> : null }
     </>

@@ -2,7 +2,8 @@
 // const inter = Inter({ subsets: ["latin"] });
 import Script from "next/script";
 import "./globals.css";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata = {
   title: "kerakoll app",
@@ -18,6 +19,16 @@ export default function RootLayout({ children }) {
       {/* <body className={inter.className}> */}
       <body>
         <main className="main">
+        <ToastContainer position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"  />
           {children}
         </main>
 

@@ -6,8 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from "../shared/LoaderComponent";
 import HeaderComponent from "../shared/HeaderComponent";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import {  setBearerToken } from "@/config/beararauth";
 import { setUserCookies, isUserToken } from "@/config/userauth";
 import { encryptText } from "@/config/crypto";
@@ -280,19 +279,6 @@ export default function LoginComponent() {
         </div>
     </section>
     </div>
-
-
-    
-<ToastContainer position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"  />
 
     { loading ? <Loader /> : null }
   </>
