@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { isUserToken, isValideUser } from "@/config/userauth";
 import Link from 'next/link';
- 
+import { toast } from 'react-toastify';
  
 export default  function HeaderComponent() {
   const isUT = isUserToken();
@@ -54,6 +54,7 @@ useEffect(() => {
       setUsername('Demmy Account');
       setUserdp('/assets/images/profile/dp.png');
       push("/") ;
+      toast.info('Logout Successfully'); 
   }
   return (
     <>

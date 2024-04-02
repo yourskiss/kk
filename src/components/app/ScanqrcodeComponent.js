@@ -80,7 +80,7 @@ export default function ScanqrcodeComponent() {
            } 
            else
            {
-            toast.error('Coupon Successfully Verify');
+            toast.success('Coupon Successfully Verify and Added');
             push("/rewards");
            }
         }).catch((err) => {

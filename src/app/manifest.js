@@ -1,5 +1,3 @@
-// import { MetadataRoute } from "next"; : MetadataRoute.Manifest
-
 export default function manifest()   {
   return {
     "name": "Kerakoll",
