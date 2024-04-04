@@ -15,6 +15,7 @@ export default  function HeaderComponent() {
   const [logout, setLogout] = useState(false);
   const[username, setUsername] = useState('');
   const[userdp, setUserdp] = useState('');
+  const[userstatus, setUserstatus] = useState('');
  
 useEffect(() => {
     if(isUT)
@@ -32,12 +33,14 @@ useEffect(() => {
   {
       setUsername(localStorage.getItem('userprofilename'));
       setUserdp(localStorage.getItem('userprofilepic'));
+      setUserstatus(localStorage.getItem('verificationstatus'));
   } 
   else
   {
       setUsername('Demmy Account');
       setUserdp('/assets/images/profile/dp.png');
   }
+
 }, []);
 
 
@@ -50,11 +53,12 @@ useEffect(() => {
       Cookies.remove('usertoken');
       localStorage.removeItem("userprofilepic");
       localStorage.removeItem("userprofilename");
+      localStorage.removeItem('verificationstatus')
       Cookies.remove('couponecodecookies');
       setUsername('Demmy Account');
       setUserdp('/assets/images/profile/dp.png');
       push("/") ;
-      toast.info('Logout Successfully'); 
+      toast.success('Logout Successfully'); 
   }
   return (
     <>
@@ -65,7 +69,9 @@ useEffect(() => {
         <section>
             <Link href="/scanqrcode" className='scanqrcodebuttononheader'><Image src="/assets/images/QR.png" width={100} height={100} alt="qr code" quality={80} /></Link>
             <aside>
-              <img src={userdp}  alt="profile" onClick={showhidelogout} /><span></span>
+              <img src={userdp}  alt="profile" onClick={showhidelogout} />
+              {userstatus === "APPROVE" ? <span className='statusapprove'></span> : <span className='statuspending'></span> }
+              
             </aside>
             {
               logout === true ?

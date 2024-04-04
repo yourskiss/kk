@@ -1,18 +1,19 @@
 "use client";
 import Image from 'next/image'
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import HeaderComponent from "../shared/HeaderComponent";
 import {  isUserToken } from "@/config/userauth";
 import Link from 'next/link';
 import TotalrewardpointsComponent from '../shared/TotalrewardpointsComponent';
- 
+import CountUp from 'react-countup';
+
 const DashboardComponent = () => {
+    
   const { push } = useRouter();
   const isUT = isUserToken();
   const rewardspoints = TotalrewardpointsComponent();
  
-
  
   useEffect(() => {
   if(!isUT) { push("/"); return  }
@@ -48,7 +49,7 @@ const DashboardComponent = () => {
                   REWARD KERAKOLL AWARDS
                   <span>you’ve earned your reward points is</span>
               </h2>
-              <p><span>{rewardspoints}</span><b>pt</b></p>
+              <p><CountUp duration={2} start={0}  delay={1}  end={rewardspoints} /> <b>pt</b></p>
           </div>
 
           <div className="dashboard_double_pro">

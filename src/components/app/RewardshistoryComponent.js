@@ -7,7 +7,7 @@ import { getUserID, isUserToken, isValideUser } from "@/config/userauth";
 import { setBearerToken } from '@/config/beararauth';
 import Loader from "../shared/LoaderComponent";
 import TotalrewardpointsComponent from '../shared/TotalrewardpointsComponent';
-
+import CountUp from 'react-countup';
 export default function RewardshistoryComponent () {
   const [loading, setLoading] = useState(false);
   const [pointhistory, setPointhistory] = useState({});
@@ -53,10 +53,9 @@ export default function RewardshistoryComponent () {
       <div className="screencontainer">
  
 
-
           <div className="rewardscontainer">
             <h2>Reward Points History</h2>
-            <h3>(Total Rewards <span>{points}</span> <b>pt</b>)</h3>
+            <h3>(Total Rewards  <CountUp duration={2} start={0}  delay={1} end={points} /> <b>pt</b>)</h3>
             { nodata ? <div className="norewardsavailable">{nodata}</div> : (
             <ul>
               <li>

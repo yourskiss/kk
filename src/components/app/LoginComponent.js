@@ -108,6 +108,7 @@ export default function LoginComponent() {
         localStorage.setItem("userprofilepic",res.data.result.profilepictureurl);
         if(res.data.result.verificationstatus === "APPROVE" || res.data.result.verificationstatus === "PENDING")
         {
+            localStorage.setItem('verificationstatus', res.data.result.verificationstatus); 
             const userinfo = res.data.result.userid + "|" + res.data.result.phonenumber
             setUserCookies('usertoken', encryptText(userinfo));       
             if(res.data.result && isCC)
