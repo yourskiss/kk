@@ -42,7 +42,7 @@ export default function GetcouponeComponent() {
     const qrdata = {
       userid: userID,
       couponcode: couponecode,
-      scanlocation: latInfo + " " + lonInfo,
+      scanlocation:`{'Latitude':'${latInfo}', 'Longitude':'${lonInfo}'}`,
       ipaddress: ipInfo,
       osdetails: osInfo,
       browserdetails: browserInfo

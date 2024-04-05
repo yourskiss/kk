@@ -57,7 +57,7 @@ export default function ScanqrcodeComponent() {
     const qrdata = {
       userid: userID,
       couponcode: couponecode,
-      scanlocation: latInfo + " " + lonInfo,
+      scanlocation: `{'Latitude':'${latInfo}', 'Longitude':'${lonInfo}'}`,
       ipaddress: ipInfo,
       osdetails: osInfo,
       browserdetails: browserInfo
